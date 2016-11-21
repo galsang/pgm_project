@@ -34,24 +34,21 @@ def preprocess_data(limit=100):
         print(json.JSONEncoder().encode(output),file=f2)
 
 def SVM(X,y,tX):
-  clf = svm.SVC()
+  clf = svm.SVC(kernel="linear")
   clf.fit(X,y)
   
-  print("classifier: SVM")
   return clf.predict(tX)
 
 def naive_bayesian(X,y,tX):
   clf = MultinomialNB()
   clf.fit(X,y)
   
-  print("classifier: naive_bayesian")
   return clf.predict(tX)
 
 def logistic_regression(X,y,tX):
   clf = LogisticRegression()
   clf.fit(X,y)
 
-  print("classifier: logistic_regression")
   return clf.predict(tX)
 
 def main():
@@ -88,17 +85,23 @@ def main():
   y =[int(doc["sentiment"]) for doc in json_docs]
   
   boundary = int(limit * 0.8)
-  #prediction = SVM(X[:boundary],y[:boundary],X[boundary:limit]).tolist()
-  #prediction = naive_bayesian(X[:boundary],y[:boundary],X[boundary:limit]).tolist()
-  prediction = logistic_regression(X[:boundary],y[:boundary],X[boundary:limit]).tolist()
+  pred_SVM = SVM(X[:boundary],y[:boundary],X[boundary:limit]).tolist()
+  pred_NB = naive_bayesian(X[:boundary],y[:boundary],X[boundary:limit]).tolist()
+  pred_LR = logistic_regression(X[:boundary],y[:boundary],X[boundary:limit]).tolist()
+
   answer = y[boundary:limit]
-  accuracy = sum([1 for i,v in enumerate(prediction) if v == answer[i]])/len(prediction)
 
-  print("prediction:",prediction)
-  print("answer:",answer)
-  print("accuracy:",accuracy)
+  accuracy_SVM = sum([1 for i,v in enumerate(pred_SVM) if v == answer[i]])/len(pred_SVM)
+  accuracy_NB = sum([1 for i,v in enumerate(pred_NB) if v == answer[i]])/len(pred_NB)
+  accuracy_LR = sum([1 for i,v in enumerate(pred_SVM) if v == answer[i]])/len(pred_LR)
 
-limit = 1000
+  #print("prediction:",prediction)
+  #print("answer:",answer)
+  print("SVM accuracy:",accuracy_SVM)
+  print("naive bayes accuracy:",accuracy_NB)
+  print("logistic regression accuracy:",accuracy_LR)
+
+limit = 10000
 preprocess_data(limit)
 print("data preprocessing finished")
 main()
