@@ -81,7 +81,6 @@ def read_docs(dic):
   with open(dic,"r") as f:
     while True:
       line = f.readline()
-      print(line)
       if line == "":
         break
       else:
@@ -100,7 +99,6 @@ def main():
   output_path = sys.argv[3]
   classifier = sys.argv[4]
 
-  print(train_path)
   json_docs = read_docs(train_path)
   test_json_docs = read_docs(test_path)
   bag_of_words = make_BOW(json_docs)
