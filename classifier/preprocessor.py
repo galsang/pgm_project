@@ -8,7 +8,7 @@ def preprocess_data(input_path, output_path, limit):
 
   with open(input_path,"r") as f:
     with open(output_path,"w") as f2:
-      while c<limit:
+      while c < limit:
         c+=1
         line = f.readline()
         if line == "":
@@ -25,9 +25,10 @@ def preprocess_data(input_path, output_path, limit):
         print(json.JSONEncoder().encode(output),file=f2)
 
 def main():
-  assert len(sys.argv) >=3, "Please the input & output path"
+  assert len(sys.argv) >=4, "Please the input & output path, limit"
   input_path = sys.argv[1] 
   output_path = sys.argv[2]
-  preprocess_data(input_path, output_path, 120000)
+  limit = int(sys.argv[3])
+  preprocess_data(input_path, output_path, limit)
 
 main()
