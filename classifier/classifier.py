@@ -26,13 +26,16 @@ def logistic_regression(X,y,tX):
   return clf.predict(tX)
 
 def classify(classifier,X,y,tX,ty):
+  print("training started...")
+
   if classifier == "NB":
     pred = naive_bayesian(X,y,tX)
   elif classifier == "LR":
     pred = logistic_regression(X,y,tX)
   else:
     pred = SVM(X,y,tX)
-
+  
+  print("training finished!!!")
   return pred.tolist()
 
 def make_Y(json_docs):
